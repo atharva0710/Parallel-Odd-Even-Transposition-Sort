@@ -1,141 +1,111 @@
-Parallel Odd-Even Transposition Sort
+# Parallel Odd-Even Transposition Sort
 
-This project implements the Odd-Even Transposition Sort algorithm using C++ and OpenMP. It provides a complete framework for automated benchmarking, performance analysis, and report generation.
+This project implements the **Odd-Even Transposition Sort** algorithm using C++ and OpenMP. It provides a comprehensive framework for automated benchmarking, performance analysis, and report generation.
 
-Project Structure
+---
 
-odd_even_sort.cpp: The primary C++ source file containing the sorting algorithm, OpenMP parallelization directives, and timing logic.
+## 📂 Project Structure
 
-Makefile: The build configuration script used to compile the source code into an executable.
+- **`odd_even_sort.cpp`**: Core C++ source file implementing the sorting algorithm with OpenMP parallelization and timing logic.
+- **`Makefile`**: Build script configured to compile the source code with optimizations.
+- **`run_project.py`**: Python automation script for executing benchmark suites (Strong and Weak scaling) and formatting results.
+- **`report.tex`**: LaTeX template for generating the final performance analysis report.
+- **`create_makefile.py`**: Configuration utility to generate system-specific Makefiles (particularly for macOS environments).
 
-run_project.py: A Python automation script that executes the benchmark suite (Strong and Weak scaling) and formats the output into tables.
+---
 
-report.tex: The LaTeX source file for the final project report.
+## ⚙️ Prerequisites
 
-create_makefile.py: A helper script designed to generate a system-specific Makefile, ensuring compatibility with macOS environments.
+### 1. C++ Compiler & Build Tools
 
-Prerequisites
+Ensure a C++17 compliant compiler and `make` are installed.
 
-1. C++ Compiler & Make
+- **macOS**: Install via Xcode Command Line Tools: `xcode-select --install`.
+- **Linux**: Install build-essential: `sudo apt install build-essential`.
 
-Ensure that a standard C++ compiler and the make utility are installed.
+### 2. OpenMP Library
 
-macOS: Install via Xcode Command Line Tools (xcode-select --install).
+OpenMP is required for parallel execution. Note that the default Apple Clang on macOS lacks OpenMP support.
 
-Linux: Install build essentials (sudo apt install build-essential).
+- **macOS (Homebrew)**:
+  ```bash
+  brew install libomp
+  ```
 
-2. OpenMP Library
+---
 
-The OpenMP library is required for parallel execution. Note that the standard Apple Clang compiler on macOS does not include this by default.
+## 🛠 Compilation
 
-macOS Installation:
+### Option A: Using Makefile (Recommended)
 
-brew install libomp
+The provided Makefile uses C++17 and `-O3` optimizations.
 
-
-Compilation Instructions
-
-There are two methods to compile the source code.
-
-Option A: Using the Makefile (Recommended)
-
-The provided Makefile compiles the code using C++17 standards and applies -O3 optimizations.
-
-Execute the build command:
-
+```bash
 make
+```
 
+If the build fails with "omp.h not found", regenerate the Makefile:
 
-Upon success, an executable named odd_even_sort will be generated.
-
-Troubleshooting: If the build fails with errors regarding "missing separator" or "omp.h not found", run the configuration script to regenerate the Makefile:
-
-python create_makefile.py
+```bash
+python3 create_makefile.py
 make
+```
 
+### Option B: Manual Compilation (macOS)
 
-Option B: Manual Compilation
-
-If the Makefile encounters issues, you may compile manually using the following command (specifically for macOS with Homebrew):
-
+```bash
 g++ -std=c++17 -Xpreprocessor -fopenmp -O3 -Wall -I/opt/homebrew/include -L/opt/homebrew/lib -lomp -o odd_even_sort odd_even_sort.cpp
+```
 
+---
 
-Running Experiments
+## 📊 Running Experiments
 
-Manual Verification
+### Manual Verification
 
-To verify the correctness of the algorithm, run the executable with specific parameters:
-Syntax: ./odd_even_sort <N> <Threads>
+Run the executable with `<N>` (array size) and `<Threads>`:
 
-Example:
-
+```bash
 ./odd_even_sort 20000 4
+```
 
+**Expected Output:** `N=20000, P=4, Time=0.1234s [Check: Sorted OK]`
 
-Output: N=20000, P=4, Time=0.1234s [Check: Sorted OK]
+### Automated Benchmarking
 
-Note: The program includes a post-execution check to verify the array is sorted. If "[Check: Sorted OK]" does not appear, the sort was unsuccessful.
+Generate complete experimental data for the report:
 
-Automated Benchmarking
+```bash
+python3 run_project.py
+```
 
-Use the provided Python script to generate the experimental data required for the report.
+This produces results for:
 
-python run_project.py
+1. **Strong Scaling**: Fixed $N$, varying thread count $P$.
+2. **Weak Scaling**: $N$ scaled proportionally with $P$.
 
+---
 
-This script will output two data tables:
+## 📄 Report Generation
 
-Strong Scaling: Fixed input size ($N$), varying thread counts ($P$).
+1. Open **`report.tex`**.
+2. Populate the tables in the **Experiments** section with data from `run_project.py`.
+3. Compile to PDF:
+   - **Overleaf**: Upload `report.tex`.
+   - **Local**: Run `pdflatex report.tex`.
 
-Weak Scaling: Increasing input size ($N$) proportional to thread counts ($P$).
+---
 
-Generating the Report
+## ✅ Submission Checklist
 
-Open the file report.tex.
+- [ ] Run `make clean` to remove binaries.
+- [ ] Verify `odd_even_sort.cpp`, `Makefile`, and `report.pdf` are present.
+- [ ] Archive into `Project_YourName.zip`.
 
-Locate the Experiments section.
+---
 
-Populate the data tables with the Time and Speedup values generated by run_project.py in the previous step.
+## ❓ Troubleshooting
 
-Compile the PDF:
-
-Online: Upload report.tex to Overleaf.
-
-Local: Execute pdflatex report.tex (requires a TeX distribution).
-
-Submission Checklist
-
-Before submitting the project:
-
-Clean Build Artifacts: Run make clean to remove the executable and temporary files.
-
-Verify File Contents: Ensure the following files are present:
-
-odd_even_sort.cpp
-
-Makefile
-
-report.pdf
-
-Archive: Compress these files into a single zip archive named Project_YourName.zip.
-
-Common Issues & Troubleshooting
-
-1. "fatal error: 'omp.h' file not found"
-
-Cause: The compiler cannot locate the OpenMP header files.
-
-Resolution: Ensure libomp is installed. Run python create_makefile.py to automatically detect the library path and update the Makefile.
-
-2. Speedup < 1.0 (Performance Degradation)
-
-Cause: The input size ($N$) is too small relative to the number of threads.
-
-Explanation: The overhead of thread creation and synchronization exceeds the computational time saved by parallelization. This is a standard characteristic of parallel algorithms on small datasets.
-
-3. "Array NOT sorted!"
-
-Cause: A logic error in the parallel region, typically a race condition.
-
-Resolution: Ensure you are using the correct schedule(static) directive and relying on the implicit barriers provided by the #pragma omp parallel for construct.
+- **`fatal error: 'omp.h' not found`**: Run `python3 create_makefile.py` to fix paths.
+- **Speedup < 1.0**: Small input size ($N$) relative to thread count $P$ causes synchronization overhead.
+- **`Array NOT sorted!`**: Indicates a race condition. Ensure `#pragma omp parallel for` is used with the default barriers.
