@@ -4,7 +4,7 @@ This project implements the **Odd-Even Transposition Sort** algorithm using C++ 
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 - **`odd_even_sort.cpp`**: Core C++ source file implementing the sorting algorithm with OpenMP parallelization and timing logic.
 - **`Makefile`**: Build script configured to compile the source code with optimizations.
@@ -14,7 +14,7 @@ This project implements the **Odd-Even Transposition Sort** algorithm using C++ 
 
 ---
 
-## ⚙️ Prerequisites
+## Prerequisites
 
 ### 1. C++ Compiler & Build Tools
 
@@ -34,7 +34,7 @@ OpenMP is required for parallel execution. Note that the default Apple Clang on 
 
 ---
 
-## 🛠 Compilation
+## Compilation
 
 ### Option A: Using Makefile (Recommended)
 
@@ -59,7 +59,7 @@ g++ -std=c++17 -Xpreprocessor -fopenmp -O3 -Wall -I/opt/homebrew/include -L/opt/
 
 ---
 
-## 📊 Running Experiments
+## Running Experiments
 
 ### Manual Verification
 
@@ -86,7 +86,7 @@ This produces results for:
 
 ---
 
-## 📄 Report Generation
+## Report Generation
 
 1. Open **`report.tex`**.
 2. Populate the tables in the **Experiments** section with data from `run_project.py`.
@@ -96,7 +96,7 @@ This produces results for:
 
 ---
 
-## ✅ Submission Checklist
+## Submission Checklist
 
 - [ ] Run `make clean` to remove binaries.
 - [ ] Verify `odd_even_sort.cpp`, `Makefile`, and `report.pdf` are present.
@@ -104,7 +104,7 @@ This produces results for:
 
 ---
 
-## ❓ Troubleshooting
+## Troubleshooting
 
 - **`fatal error: 'omp.h' not found`**: Run `python3 create_makefile.py` to fix paths.
 - **Speedup < 1.0**: Small input size ($N$) relative to thread count $P$ causes synchronization overhead.
