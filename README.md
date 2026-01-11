@@ -84,28 +84,5 @@ This produces results for:
 1. **Strong Scaling**: Fixed $N$, varying thread count $P$.
 2. **Weak Scaling**: $N$ scaled proportionally with $P$.
 
----
 
-## Report Generation
 
-1. Open **`report.tex`**.
-2. Populate the tables in the **Experiments** section with data from `run_project.py`.
-3. Compile to PDF:
-   - **Overleaf**: Upload `report.tex`.
-   - **Local**: Run `pdflatex report.tex`.
-
----
-
-## Submission Checklist
-
-- [ ] Run `make clean` to remove binaries.
-- [ ] Verify `odd_even_sort.cpp`, `Makefile`, and `report.pdf` are present.
-- [ ] Archive into `Project_YourName.zip`.
-
----
-
-## Troubleshooting
-
-- **`fatal error: 'omp.h' not found`**: Run `python3 create_makefile.py` to fix paths.
-- **Speedup < 1.0**: Small input size ($N$) relative to thread count $P$ causes synchronization overhead.
-- **`Array NOT sorted!`**: Indicates a race condition. Ensure `#pragma omp parallel for` is used with the default barriers.
